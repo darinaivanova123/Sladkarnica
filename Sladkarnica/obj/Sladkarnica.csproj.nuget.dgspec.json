@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\STUDENTS-STEM-1-16\\Desktop\\Sladkarnica\\Sladkarnica\\Sladkarnica.csproj": {}
+    "C:\\Users\\STUDENTS-STEM1-10\\Desktop\\Sladkarnica-main\\Sladkarnica\\Sladkarnica.csproj": {}
   },
   "projects": {
-    "C:\\Users\\STUDENTS-STEM-1-16\\Desktop\\Sladkarnica\\Sladkarnica\\Sladkarnica.csproj": {
+    "C:\\Users\\STUDENTS-STEM1-10\\Desktop\\Sladkarnica-main\\Sladkarnica\\Sladkarnica.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\STUDENTS-STEM-1-16\\Desktop\\Sladkarnica\\Sladkarnica\\Sladkarnica.csproj",
+        "projectUniqueName": "C:\\Users\\STUDENTS-STEM1-10\\Desktop\\Sladkarnica-main\\Sladkarnica\\Sladkarnica.csproj",
         "projectName": "Sladkarnica",
-        "projectPath": "C:\\Users\\STUDENTS-STEM-1-16\\Desktop\\Sladkarnica\\Sladkarnica\\Sladkarnica.csproj",
-        "packagesPath": "C:\\Users\\STUDENTS-STEM-1-16\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\STUDENTS-STEM-1-16\\Desktop\\Sladkarnica\\Sladkarnica\\obj\\",
+        "projectPath": "C:\\Users\\STUDENTS-STEM1-10\\Desktop\\Sladkarnica-main\\Sladkarnica\\Sladkarnica.csproj",
+        "packagesPath": "C:\\Users\\STUDENTS-STEM1-10\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\STUDENTS-STEM1-10\\Desktop\\Sladkarnica-main\\Sladkarnica\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\STUDENTS-STEM-1-16\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\STUDENTS-STEM1-10\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

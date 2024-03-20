@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sladkarnica.Data
 {
@@ -14,7 +15,9 @@ public class Product
         public bool Gluten { get; set; }
         public string Description { get; set; }
         public string PhotoUrl { get; set;}
+        [Column(TypeName = "decimal(10,2)")]
         public decimal Price { get; set;}
+       
         public DateTime DateModification { get; set;}=DateTime.Now;
        public ICollection<Order> Orders { get; set; }
     }
