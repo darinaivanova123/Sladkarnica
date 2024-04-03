@@ -88,6 +88,7 @@ namespace Sladkarnica.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,DateModification")] Category category)
         {
+            category.DateModification = DateTime.Now;
             if (id != category.Id)
             {
                 return NotFound();

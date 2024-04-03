@@ -28,7 +28,7 @@ namespace Sladkarnica.Controllers
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Products == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -58,6 +58,7 @@ namespace Sladkarnica.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Catalognumber,CategoriesId,Size,Weight,Gluten,Description,PhotoUrl,Price,DateModification")] Product product)
         {
+            product.DateModification = DateTime.Now;
             if (ModelState.IsValid)
             {
                 _context.Add(product);
@@ -71,7 +72,7 @@ namespace Sladkarnica.Controllers
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Products == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -92,6 +93,7 @@ namespace Sladkarnica.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Catalognumber,CategoriesId,Size,Weight,Gluten,Description,PhotoUrl,Price,DateModification")] Product product)
         {
+            product.DateModification = DateTime.Now;
             if (id != product.Id)
             {
                 return NotFound();
@@ -124,7 +126,7 @@ namespace Sladkarnica.Controllers
         // GET: Products/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Products == null)
+            if (id == null)
             {
                 return NotFound();
             }

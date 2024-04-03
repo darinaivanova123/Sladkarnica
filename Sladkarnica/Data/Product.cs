@@ -3,14 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sladkarnica.Data
 {
-    public enum Size { malka, golqma, sredna }
+    //public enum Size { malka, golqma, sredna }
 public class Product
     {
         public int Id { get; set; }
         public string Catalognumber { get; set; }
         public int CategoriesId { get; set; }
         public Category Categories { get; set; }
-        public Size Size {get;set;}
+        public int Size {get;set;}
         public decimal Weight { get; set; }
         public bool Gluten { get; set; }
         public string Description { get; set; }
