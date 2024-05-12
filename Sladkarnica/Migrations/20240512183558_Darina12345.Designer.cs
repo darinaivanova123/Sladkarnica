@@ -9,18 +9,18 @@ using Sladkarnica.Data;
 
 #nullable disable
 
-namespace Sladkarnica.Data.Migrations
+namespace Sladkarnica.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240131064404_initialMigration")]
-    partial class initialMigration
+    [Migration("20240512183558_Darina12345")]
+    partial class Darina12345
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.1")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -281,9 +281,6 @@ namespace Sladkarnica.Data.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ProductsId")
                         .HasColumnType("int");
 
@@ -294,7 +291,7 @@ namespace Sladkarnica.Data.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductsId");
 
                     b.ToTable("Orders");
                 });
@@ -329,13 +326,14 @@ namespace Sladkarnica.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(10,2)");
 
-                    b.Property<int>("Size")
+                    b.Property<string>("Size")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Weight")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("Weight")
-                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -403,11 +401,15 @@ namespace Sladkarnica.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Sladkarnica.Data.Product", null)
+                    b.HasOne("Sladkarnica.Data.Product", "Products")
                         .WithMany("Orders")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Clients");
+
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Sladkarnica.Data.Product", b =>

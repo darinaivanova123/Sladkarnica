@@ -10,8 +10,8 @@ public class Product
         public string Catalognumber { get; set; }
         public int CategoriesId { get; set; }
         public Category Categories { get; set; }
-        public int Size {get;set;}
-        public decimal Weight { get; set; }
+        public string Size {get;set;}
+        public int Weight { get; set; }
         public bool Gluten { get; set; }
         public string Description { get; set; }
         public string PhotoUrl { get; set;}

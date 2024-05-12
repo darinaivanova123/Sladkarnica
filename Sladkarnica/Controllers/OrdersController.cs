@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,19 +11,22 @@ using Sladkarnica.Data;
 
 namespace Sladkarnica.Controllers
 {
+    [Authorize]
     public class OrdersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<Client> _userManager;
 
-        public OrdersController(ApplicationDbContext context)
+        public OrdersController(ApplicationDbContext context, UserManager<Client> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Orders.Include(o => o.Clients);
+            var applicationDbContext = _context.Orders.Include(o => o.Clients).Include(o => o.Products);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -35,6 +40,7 @@ namespace Sladkarnica.Controllers
 
             var order = await _context.Orders
                 .Include(o => o.Clients)
+                .Include(o => o.Products)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {
@@ -43,11 +49,25 @@ namespace Sladkarnica.Controllers
 
             return View(order);
         }
-
+        public async Task<IActionResult> CreateWithProductId(int productId, int countP)
+        {
+            var currentWine = await _context.Products.FirstOrDefaultAsync(z => z.Id == productId);
+            Order order = new Order();
+            //order.ProductsId = productId;
+            // productId = order.ProductsId;
+            order.ProductsId = productId;
+            order.Quantity = countP;
+            order.ClientId = _userManager.GetUserId(User);
+            var price = countP * currentWine.Price;
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
         // GET: Orders/Create
         public IActionResult Create()
         {
-            ViewData["ClientId"] = new SelectList(_context.Users, "Id", "Id");
+            //ViewData["ClientId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["ProductsId"] = new SelectList(_context.Products, "Id", "Name");
             return View();
         }
 
@@ -56,15 +76,18 @@ namespace Sladkarnica.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ClientId,ProductsId,Quantity,Created")] Order order)
+        public async Task<IActionResult> Create([Bind("ProductsId,Quantity,Created")] Order order)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(order);
+                order.Created = DateTime.Now;
+                order.ClientId = _userManager.GetUserId(User);
+                _context.Orders.Add(order);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClientId"] = new SelectList(_context.Users, "Id", "Id", order.ClientId);
+            //ViewData["ClientId"] = new SelectList(_context.Users, "Id", "Id", order.ClientId);
+            ViewData["ProductsId"] = new SelectList(_context.Products, "Id", "Name", order.ProductsId);
             return View(order);
         }
 
@@ -81,7 +104,8 @@ namespace Sladkarnica.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClientId"] = new SelectList(_context.Users, "Id", "Id", order.ClientId);
+            //ViewData["ClientId"] = new SelectList(_context.Users, "Id", "Id", order.ClientId);
+            ViewData["ProductsId"] = new SelectList(_context.Products, "Id", "Name", order.ProductsId);
             return View(order);
         }
 
@@ -90,7 +114,7 @@ namespace Sladkarnica.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ClientId,ProductsId,Quantity,Created")] Order order)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ProductsId,Quantity,Created")] Order order)
         {
             if (id != order.Id)
             {
@@ -101,7 +125,9 @@ namespace Sladkarnica.Controllers
             {
                 try
                 {
-                    _context.Update(order);
+                    order.Created = DateTime.Now;
+                    order.ClientId = _userManager.GetUserId(User);
+                    _context.Orders.Update(order);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -117,7 +143,8 @@ namespace Sladkarnica.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClientId"] = new SelectList(_context.Users, "Id", "Id", order.ClientId);
+            //ViewData["ClientId"] = new SelectList(_context.Users, "Id", "Id", order.ClientId);
+            ViewData["ProductsId"] = new SelectList(_context.Products, "Id", "Name", order.ProductsId);
             return View(order);
         }
 
@@ -131,6 +158,7 @@ namespace Sladkarnica.Controllers
 
             var order = await _context.Orders
                 .Include(o => o.Clients)
+                .Include(o => o.Products)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {

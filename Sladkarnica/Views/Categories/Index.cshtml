@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Категории</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,13 +13,11 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Име на категория
             </th>
+
             <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateModification)
+                Дата на добавяне
             </th>
             <th></th>
         </tr>
@@ -30,9 +28,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
+        
             <td>
                 @Html.DisplayFor(modelItem => item.DateModification)
             </td>

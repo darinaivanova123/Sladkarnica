@@ -17,7 +17,7 @@ namespace Sladkarnica.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.2")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -278,9 +278,6 @@ namespace Sladkarnica.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ProductsId")
                         .HasColumnType("int");
 
@@ -291,7 +288,7 @@ namespace Sladkarnica.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductsId");
 
                     b.ToTable("Orders");
                 });
@@ -328,11 +325,12 @@ namespace Sladkarnica.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<int>("Size")
-                        .HasColumnType("int");
+                    b.Property<string>("Size")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Weight")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("Weight")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -400,11 +398,15 @@ namespace Sladkarnica.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Sladkarnica.Data.Product", null)
+                    b.HasOne("Sladkarnica.Data.Product", "Products")
                         .WithMany("Orders")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Clients");
+
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Sladkarnica.Data.Product", b =>

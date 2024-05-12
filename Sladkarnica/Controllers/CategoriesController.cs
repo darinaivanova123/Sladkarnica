@@ -58,7 +58,7 @@ namespace Sladkarnica.Controllers
             category.DateModification= DateTime.Now;
             if (ModelState.IsValid)
             {
-                _context.Add(category);
+                _context.Categories.Add(category);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -98,7 +98,8 @@ namespace Sladkarnica.Controllers
             {
                 try
                 {
-                    _context.Update(category);
+                    category.DateModification = DateTime.Now;
+                    _context.Categories.Update(category);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

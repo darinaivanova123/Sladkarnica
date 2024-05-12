@@ -47,7 +47,7 @@ namespace Sladkarnica.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["CategoriesId"] = new SelectList(_context.Categories, "Id", "Id");
+            ViewData["CategoriesId"] = new SelectList(_context.Categories, "Id", "Name");
             return View();
         }
 
@@ -56,16 +56,16 @@ namespace Sladkarnica.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Catalognumber,CategoriesId,Size,Weight,Gluten,Description,PhotoUrl,Price,DateModification")] Product product)
+        public async Task<IActionResult> Create([Bind("Catalognumber,CategoriesId,Size,Weight,Gluten,Description,PhotoUrl,Price,DateModification")] Product product)
         {
-            product.DateModification = DateTime.Now;
             if (ModelState.IsValid)
             {
-                _context.Add(product);
+                product.DateModification = DateTime.Now;
+                _context.Products.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoriesId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoriesId);
+            ViewData["CategoriesId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoriesId);
             return View(product);
         }
 
@@ -82,7 +82,7 @@ namespace Sladkarnica.Controllers
             {
                 return NotFound();
             }
-            ViewData["CategoriesId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoriesId);
+            ViewData["CategoriesId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoriesId);
             return View(product);
         }
 
@@ -93,7 +93,6 @@ namespace Sladkarnica.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Catalognumber,CategoriesId,Size,Weight,Gluten,Description,PhotoUrl,Price,DateModification")] Product product)
         {
-            product.DateModification = DateTime.Now;
             if (id != product.Id)
             {
                 return NotFound();
@@ -103,7 +102,8 @@ namespace Sladkarnica.Controllers
             {
                 try
                 {
-                    _context.Update(product);
+                    product.DateModification = DateTime.Now;
+                    _context.Products.Update(product);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -119,7 +119,7 @@ namespace Sladkarnica.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoriesId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoriesId);
+            ViewData["CategoriesId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoriesId);
             return View(product);
         }
 

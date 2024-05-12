@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Sladkarnica")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7299821e6aed3d0d152eded360f6a70d142f7453")]
 [assembly: System.Reflection.AssemblyProductAttribute("Sladkarnica")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Sladkarnica")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

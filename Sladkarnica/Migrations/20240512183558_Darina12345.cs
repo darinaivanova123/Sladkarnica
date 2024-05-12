@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Sladkarnica.Migrations
 {
     /// <inheritdoc />
-    public partial class NewMig : Migration
+    public partial class Darina12345 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -183,8 +183,8 @@ namespace Sladkarnica.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Catalognumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CategoriesId = table.Column<int>(type: "int", nullable: false),
-                    Size = table.Column<int>(type: "int", nullable: false),
-                    Weight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Size = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Weight = table.Column<int>(type: "int", nullable: false),
                     Gluten = table.Column<bool>(type: "bit", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhotoUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -211,8 +211,7 @@ namespace Sladkarnica.Migrations
                     ClientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProductsId = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: true)
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -224,10 +223,11 @@ namespace Sladkarnica.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Orders_Products_ProductId",
-                        column: x => x.ProductId,
+                        name: "FK_Orders_Products_ProductsId",
+                        column: x => x.ProductsId,
                         principalTable: "Products",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -275,9 +275,9 @@ namespace Sladkarnica.Migrations
                 column: "ClientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_ProductId",
+                name: "IX_Orders_ProductsId",
                 table: "Orders",
-                column: "ProductId");
+                column: "ProductsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoriesId",
